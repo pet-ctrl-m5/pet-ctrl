@@ -1,3 +1,43 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from owners.models import Owner
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 
-# Create your views here.
+from pets.models import Pet
+from pets.serializers import PetCreationSerializer, PetRetrieveSerializer
+
+
+class ListCreatePetView(ListCreateAPIView):
+
+    queryset = Pet.objects.all()
+    serializer_class = PetCreationSerializer
+
+    lookup_url_kwarg = "owner_id"
+
+    def perform_create(self, serializer):
+        owner = get_object_or_404(Owner, pk=self.kwargs["owner_id"])
+
+        serializer.save(owner=owner)
+
+    def get_queryset(self):
+        owner_id = get_object_or_404(Owner, pk=self.kwargs["owner_id"])
+
+        if self.request.method == "GET":
+            pets = Pet.objects.filter(owner_id__exact=owner_id)
+            return pets
+        return super().get_queryset()
+
+
+class ListPetsView(ListAPIView):
+
+    queryset = Pet.objects.all()
+    serializer_class = PetCreationSerializer
+
+
+class PetsDetailsView(RetrieveUpdateDestroyAPIView):
+    queryset = Pet.objects.all()
+    serializer_class = PetRetrieveSerializer
+    lookup_url_kwarg = "pet_id"
