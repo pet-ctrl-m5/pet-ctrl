@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from .models import User
+from .models import Staff
 
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Staff
         fields = [
             "id",
             "username",
@@ -24,7 +24,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        return Staff.objects.create_user(**validated_data)
 
 
 class LoginSerializer(serializers.Serializer):
