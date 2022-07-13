@@ -9,11 +9,17 @@ from rest_framework.generics import (
 from pets.models import Pet
 from pets.serializers import PetCreationSerializer, PetRetrieveSerializer
 
+from .mixins import ListCreatePetMixin
 
-class ListCreatePetView(ListCreateAPIView):
+
+class ListCreatePetView(ListCreatePetMixin, ListCreateAPIView):
 
     queryset = Pet.objects.all()
-    serializer_class = PetCreationSerializer
+    # serializer_class = PetCreationSerializer
+    serializer_map = {
+        "GET": PetRetrieveSerializer,
+        "POST": PetCreationSerializer,
+    }
 
     lookup_url_kwarg = "owner_id"
 
@@ -34,7 +40,7 @@ class ListCreatePetView(ListCreateAPIView):
 class ListPetsView(ListAPIView):
 
     queryset = Pet.objects.all()
-    serializer_class = PetCreationSerializer
+    serializer_class = PetRetrieveSerializer
 
 
 class PetsDetailsView(RetrieveUpdateDestroyAPIView):

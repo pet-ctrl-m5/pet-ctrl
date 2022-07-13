@@ -10,4 +10,4 @@ class ServiceList(models.Model):
         on_delete=models.DO_NOTHING,
         related_name="customer_services",
     )
-    pet_services = models.ManyToManyField("services.Service", related_name="services_list")
+    # pet_services = models.ManyToManyField("services.Service", related_name="services_list")
