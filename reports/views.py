@@ -1,25 +1,23 @@
 from django.shortcuts import get_object_or_404, render
-
 from pets.models import Pet
-
-from .models import Report
-from .serializers import ReportSerializer
-
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
 
+from .models import Report
+from .serializers import ReportSerializer
 
-class CreateReportView(ListCreateAPIView):
+
+class ListCreateReportView(ListCreateAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     lookup_url_kwarg = "pet_id"
 
     def perform_create(self, serializer):
-        pet = get_object_or_404(Pet, pk=self.kwargs["pet_id"])
 
+        pet = get_object_or_404(Pet, pk=self.kwargs["pet_id"])
         serializer.save(pet=pet)
 
     def get_queryset(self):

@@ -8,8 +8,8 @@ class Staff(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    is_manager = models.BooleanField(default=False)
-    is_doctor = models.BooleanField(default=False)
+    is_manager = models.BooleanField()
+    is_doctor = models.BooleanField()
     email = None
     REQUIRED_FIELDS = ["first_name", "last_name"]
     USERNAME_FIELD = "username"
