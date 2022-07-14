@@ -110,8 +110,8 @@ if os.getenv("TEST"):
     }
     DEBUG = True
 
-elif os.getenv("HEROKU_ENV"):
-    DEBUG = False
+elif os.getenv("DATABASE_URL"):
+    DEBUG = True
 
 else:
     DATABASES = {
