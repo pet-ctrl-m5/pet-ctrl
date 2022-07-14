@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404, render
 from owners.models import Owner
-from rest_framework.generics import ListAPIView, ListCreateAPIView
-
-from pets.models import Pet
-from pets.serializers import (
-    PetCreationSerializer,
-    PetRetrieveSerializer,
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+
+from pets.models import Pet
+from pets.serializers import PetCreationSerializer, PetRetrieveSerializer
 
 from .mixins import ListCreatePetMixin
 
