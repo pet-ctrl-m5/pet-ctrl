@@ -47,3 +47,4 @@ class PetsDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = Pet.objects.all()
     serializer_class = PetRetrieveSerializer
     lookup_url_kwarg = "pet_id"
+
