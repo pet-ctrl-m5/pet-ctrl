@@ -19,3 +19,11 @@ class ReportSerializer(serializers.ModelSerializer):
             "name": obj.pet.name,
             "owner": obj.pet.owner.name,
         }
+
+
+class ReportListPetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ["id", "report", "created_at", "updated_at"]
+        # exclude = ["pet"]
+        extra_kwargs = {"pet": {"write_only": True}}
