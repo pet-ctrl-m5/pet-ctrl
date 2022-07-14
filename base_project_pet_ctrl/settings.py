@@ -51,7 +51,16 @@ THIRD_PART_APPS = [
     "rest_framework.authtoken",
 ]
 
-MY_APPS = ["users", "owners", "pets", "service_list", "services", "reports"]
+MY_APPS = [
+    "staffs",
+    "owners",
+    "pets",
+    "service_list",
+    "services",
+    "reports",
+    "store",
+]
+
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PART_APPS + MY_APPS
 
@@ -89,23 +98,26 @@ WSGI_APPLICATION = "base_project_pet_ctrl.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": "db_pet_ctrl",
-        "PORT": 5432,
+if os.getenv("TEST"):
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB"),
+            "USER": os.getenv("POSTGRES_USER"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+            "HOST": "db_pet_ctrl",
+            "PORT": 5432,
+        }
+    }
 
 
 # Password validation
@@ -155,7 +167,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "staffs.Staff"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": (
