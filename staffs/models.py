@@ -15,3 +15,10 @@ class Staff(AbstractUser):
     REQUIRED_FIELDS = ["first_name", "last_name"]
     USERNAME_FIELD = "username"
     objects = CustomUserManager()
+
+    store = models.ForeignKey(
+        "store.Store",
+        on_delete=models.DO_NOTHING,
+        related_name="staffs",
+        null=True,
+    )
