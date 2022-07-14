@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+import django_on_heroku
 import dotenv
 
 dotenv.load_dotenv()
@@ -24,14 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-e!a9-m+apb$8lpzb6w0m3wo=x9pb@t&t9i_4a4bpf3a&fk6yay"
-)
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+CSRF_TRUSTED_ORIGINS = ["https://pet-ctrl-django.herokuapp.com"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -107,6 +108,11 @@ if os.getenv("TEST"):
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+    DEBUG = True
+
+elif os.getenv("DATABASE_URL"):
+    DEBUG = False
+
 else:
     DATABASES = {
         "default": {
@@ -118,6 +124,7 @@ else:
             "PORT": 5432,
         }
     }
+    DEBUG = True
 
 
 # Password validation
@@ -159,8 +166,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -183,3 +190,5 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+django_on_heroku.settings(locals())
