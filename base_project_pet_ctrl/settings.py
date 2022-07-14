@@ -27,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-# CSRF_TRUSTED_ORIGINS = ["https://bandkamp-artur.herokuapp.com"]
+CSRF_TRUSTED_ORIGINS = ["https://pet-ctrl-django.herokuapp.com"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -108,7 +108,10 @@ if os.getenv("TEST"):
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-    DEWBUG = True
+    DEBUG = True
+
+elif os.getenv("HEROKU_ENV"):
+    DEBUG = False
 
 else:
     DATABASES = {
