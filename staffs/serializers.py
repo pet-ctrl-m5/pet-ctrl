@@ -11,10 +11,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             "username",
             "first_name",
             "last_name",
-            "is_superuser",
             "is_active",
+            "is_superuser",
             "is_manager",
             "is_doctor",
+            "is_staff",
             "date_joined",
             "password",
         ]
@@ -25,8 +26,3 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Staff.objects.create_user(**validated_data)
-
-
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
