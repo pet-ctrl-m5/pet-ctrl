@@ -1,5 +1,6 @@
-from reports.serializers import ReportSerializer
+from reports.serializers import ReportListPetSerializer, ReportSerializer
 from rest_framework import serializers
+from service_list.serializers import ServiceListSerializer
 
 from .models import Pet
 
@@ -29,7 +30,8 @@ class PetCreationSerializer(serializers.ModelSerializer):
 
 class PetRetrieveSerializer(serializers.ModelSerializer):
     owner_info = serializers.SerializerMethodField()
-    reports = ReportSerializer(read_only=True, many=True)
+    reports = ReportListPetSerializer(read_only=True, many=True)
+    customer_services = ServiceListSerializer(read_only=True, many=True)
 
     class Meta:
         model = Pet
@@ -42,9 +44,10 @@ class PetRetrieveSerializer(serializers.ModelSerializer):
             "is_alive",
             "owner_info",
             "reports",
+            "customer_services",
         ]
         extra_kwargs = {"owner": {"write_only": True}}
-        depth = 1
+        depth = 0
 
     def get_owner_info(self, obj: Pet) -> dict:
         info = {
