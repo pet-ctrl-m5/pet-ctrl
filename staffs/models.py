@@ -10,6 +10,7 @@ class Staff(AbstractUser):
     last_name = models.CharField(max_length=50)
     is_manager = models.BooleanField()
     is_doctor = models.BooleanField()
+    is_staff = models.BooleanField()
     email = None
     REQUIRED_FIELDS = ["first_name", "last_name"]
     USERNAME_FIELD = "username"
