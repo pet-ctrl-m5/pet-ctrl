@@ -21,11 +21,11 @@ class ReportSerializer(serializers.ModelSerializer):
                 owner_name = obj.pet.owner.name
             else:
                 owner_name = None
-                return {
-                    "id": obj.pet.id,
-                    "name": obj.pet.name,
-                    "owner": owner_name,
-                }
+            return {
+                "id": obj.pet.id,
+                "name": obj.pet.name,
+                "owner": owner_name,
+            }
 
         return None
 
