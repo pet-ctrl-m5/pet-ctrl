@@ -64,7 +64,7 @@ class TestPetsViews(APITestCase):
 
         self.assertIn("owner_id", response.data)
         self.assertIn("reports", response.data)
-        # self.assertIn("customer_services", response.data)
+        self.assertIn("customer_services", response.data)
 
     def test_pet_creation_manager_success(self):
         self.client.credentials(
@@ -81,7 +81,7 @@ class TestPetsViews(APITestCase):
 
         self.assertIn("owner_id", response.data)
         self.assertIn("reports", response.data)
-        # self.assertIn("customer_services", response.data)
+        self.assertIn("customer_services", response.data)
 
     def test_pet_creation_staff_success(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token_staff}")
@@ -96,7 +96,7 @@ class TestPetsViews(APITestCase):
 
         self.assertIn("owner_id", response.data)
         self.assertIn("reports", response.data)
-        # self.assertIn("customer_services", response.data)
+        self.assertIn("customer_services", response.data)
 
     def test_pet_creation_doctor_failure(self):
         self.client.credentials(
