@@ -4,12 +4,12 @@ from . import views
 
 urlpatterns = [
     path(
-        "pets/<int:pet_id>/servicelist/",
+        "pets/<int:pet_id>/serviceslist/",
         views.ListCreateServiceListView.as_view(),
     ),
-    path("servicelist/", views.ListServiceList.as_view()),
+    path("serviceslist/", views.ListServiceList.as_view()),
     path(
-        "servicelist/<int:service_list_id>/",
+        "serviceslist/<int:service_list_id>/",
         views.ServiceListDetailsView.as_view(),
     ),
 ]
