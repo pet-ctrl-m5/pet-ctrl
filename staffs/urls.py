@@ -5,7 +5,7 @@ from . import views as s_views
 
 urlpatterns = [
     path(
-        "store/<int:store_id>/staffs/register/",
+        "stores/<int:store_id>/staffs/register/",
         s_views.CreateStaffView.as_view(),
     ),
     path("staffs/", s_views.ListStaffView.as_view()),

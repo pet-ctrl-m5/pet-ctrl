@@ -8,5 +8,8 @@ class Pet(models.Model):
     birthday = models.DateField()
     is_alive = models.BooleanField(default=True)
     owner = models.ForeignKey(
-        "owners.Owner", on_delete=models.DO_NOTHING, related_name="pets"
+        "owners.Owner",
+        on_delete=models.SET_NULL,
+        related_name="pets",
+        null=True,
     )
