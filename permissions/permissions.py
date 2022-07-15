@@ -61,7 +61,7 @@ class StoreCRUDPermission(permissions.BasePermission):
         return True
 
 
-class StaffCRUDpermission(permissions.BasePermission):
+class StaffCRUDPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
@@ -83,7 +83,7 @@ class StaffCRUDpermission(permissions.BasePermission):
         return True
 
 
-class StaffCreationpermission(permissions.BasePermission):
+class StaffCreationPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
@@ -97,9 +97,30 @@ class StaffCreationpermission(permissions.BasePermission):
         if request.user.is_superuser:
             return True
 
-        # kwarg_user = verify_request_kwargs(request, Staff)
+        return True
 
-        # if request.user.is_manager and kwarg_user.is_superuser:
-        #     return False
+
+class PetsCreationPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        if request.user.is_superuser:
+            return True
+
+        if request.method == "POST":
+            if not (
+                request.user.is_superuser
+                or request.user.is_manager
+                or request.user.is_staff
+            ):
+                return False
+
+        if request.method == "DELETE":
+            if not (request.user.is_superuser or request.user.is_manager):
+                return False
 
         return True

@@ -9,7 +9,7 @@ from .models import ServiceList
 
 class ServiceListSerializer(serializers.ModelSerializer):
 
-    # pet_id = serializers.SerializerMethodField()
+    pet_id = serializers.SerializerMethodField()
     pet_services = ServicesToListSerializer(many=True)
 
     class Meta:
@@ -29,7 +29,9 @@ class ServiceListSerializer(serializers.ModelSerializer):
         return value
 
     def get_pet_id(self, obj: ServiceList) -> int:
-        return obj.pet.id
+        if obj.pet is not None:
+            return obj.pet.id
+        return None
 
     def create(self, validated_data):
         services_list = validated_data.pop("pet_services", None)

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from permissions.permissions import (
-    StaffCreationpermission,
-    StaffCRUDpermission,
+    StaffCreationPermission,
+    StaffCRUDPermission,
 )
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
@@ -19,7 +19,7 @@ from staffs.serializers import ListStaffsSerializer, RegisterSerializer
 
 class CreateStaffView(CreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StaffCreationpermission]
+    permission_classes = [StaffCreationPermission]
 
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer
@@ -33,7 +33,7 @@ class CreateStaffView(CreateAPIView):
 
 class ListStaffView(ListAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StaffCRUDpermission]
+    permission_classes = [StaffCRUDPermission]
 
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer
@@ -41,7 +41,7 @@ class ListStaffView(ListAPIView):
 
 class DetailStaffView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StaffCRUDpermission]
+    permission_classes = [StaffCRUDPermission]
 
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer

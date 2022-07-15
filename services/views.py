@@ -1,8 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 
 from .models import Service
 from .serializers import ServiceSerializer
@@ -14,7 +11,7 @@ class ListCreateServiceView(ListCreateAPIView):
     serializer_class = ServiceSerializer
 
 
-class ServiceDetailsView(RetrieveUpdateDestroyAPIView):
+class ServiceDetailsView(RetrieveUpdateAPIView):
     queryset = Service.objects.filter(is_active__exact=True)
     serializer_class = ServiceSerializer
     lookup_url_kwarg = "service_id"
