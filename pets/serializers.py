@@ -8,6 +8,7 @@ from .models import Pet
 class PetCreationSerializer(serializers.ModelSerializer):
     owner_id = serializers.SerializerMethodField()
     reports = ReportSerializer(read_only=True, many=True)
+    customer_services = ServiceListSerializer(read_only=True, many=True)
 
     class Meta:
         model = Pet
@@ -20,6 +21,7 @@ class PetCreationSerializer(serializers.ModelSerializer):
             "is_alive",
             "owner_id",
             "reports",
+            "customer_services",
         ]
         extra_kwargs = {"owner": {"write_only": True}}
 

@@ -31,8 +31,18 @@ class PetModelTests(TestCase):
         self.assertIsInstance(self.pet.owner, Owner)
 
     def test_pet_creation_without_owner(self):
-        with self.assertRaises(IntegrityError):
-            self.pet.save()
+
+        self.pet.save()
+
+        new_pet = Pet.objects.get(pk=self.pet.id)
+
+        self.assertEqual(self.pet.id, new_pet.id)
+        self.assertEqual(self.pet.name, new_pet.name)
+        self.assertEqual(self.pet.type, new_pet.type)
+        self.assertEqual(self.pet.breed, new_pet.breed)
+        self.assertEqual(self.pet.birthday, str(new_pet.birthday))
+        self.assertEqual(self.pet.is_alive, new_pet.is_alive)
+        self.assertEqual(None, new_pet.owner_id)
 
     def test_owner_can_have_multiples_pets(self):
         for pet in self.pets_list:
