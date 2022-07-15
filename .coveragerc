@@ -4,6 +4,12 @@ omit =
     venv/*
     base_project_pet_ctrl/*
     manage.py
+    pets/*
+    reports/*
+    service_list/*
+    services/*
+    store/*
+    owners/*
 
 [report]
 show_missing = True
