@@ -2,8 +2,11 @@ from django.shortcuts import get_object_or_404, render
 from owners.models import Owner
 from permissions.permissions import PetsCRUDPermission
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import (ListAPIView, ListCreateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 
 from pets.models import Pet
 from pets.serializers import PetCreationSerializer, PetRetrieveSerializer
@@ -17,7 +20,7 @@ class ListCreatePetView(ListCreatePetMixin, ListCreateAPIView):
     permission_classes = [PetsCRUDPermission]
 
     queryset = Pet.objects.all()
-    # serializer_class = PetCreationSerializer
+
     serializer_map = {
         "GET": PetRetrieveSerializer,
         "POST": PetCreationSerializer,
@@ -36,7 +39,7 @@ class ListCreatePetView(ListCreatePetMixin, ListCreateAPIView):
         if self.request.method == "GET":
             pets = Pet.objects.filter(owner_id__exact=owner_id)
             return pets
-        return super().get_queryset()
+        # return Pet.objects.all()
 
 
 class ListPetsView(ListAPIView):
