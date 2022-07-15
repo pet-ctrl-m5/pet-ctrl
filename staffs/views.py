@@ -1,4 +1,9 @@
 from django.shortcuts import get_object_or_404, render
+from permissions.permissions import (
+    StaffCreationPermission,
+    StaffCRUDPermission,
+)
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
@@ -13,6 +18,9 @@ from staffs.serializers import ListStaffsSerializer, RegisterSerializer
 
 
 class CreateStaffView(CreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [StaffCreationPermission]
+
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer
     lookup_url_kwarg = "store_id"
@@ -24,10 +32,16 @@ class CreateStaffView(CreateAPIView):
 
 
 class ListStaffView(ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [StaffCRUDPermission]
+
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer
 
 
 class DetailStaffView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [StaffCRUDPermission]
+
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer

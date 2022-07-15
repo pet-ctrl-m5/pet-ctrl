@@ -9,7 +9,7 @@ from .models import ServiceList
 
 class ServiceListSerializer(serializers.ModelSerializer):
 
-    # pet_id = serializers.SerializerMethodField()
+    pet_id = serializers.SerializerMethodField()
     pet_services = ServicesToListSerializer(many=True)
 
     class Meta:
@@ -29,9 +29,11 @@ class ServiceListSerializer(serializers.ModelSerializer):
         return value
 
     def get_pet_id(self, obj: ServiceList) -> int:
-        return obj.pet.id
+        if obj.pet is not None:
+            return obj.pet.id
+        return None
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> ServiceList:
         services_list = validated_data.pop("pet_services", None)
         discount = validated_data.pop("discount", 0)
 
@@ -52,7 +54,7 @@ class ServiceListSerializer(serializers.ModelSerializer):
         total_value = sub_total - (sub_total * discount) / 100
 
         new_sl = ServiceList.objects.create(
-            **validated_data, total=total_value
+            **validated_data, total=total_value, discount=discount
         )
         new_sl.pet_services.set(list_to_add)
 

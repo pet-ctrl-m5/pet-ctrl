@@ -18,7 +18,7 @@ class Staff(AbstractUser):
 
     store = models.ForeignKey(
         "store.Store",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
         related_name="staffs",
         null=True,
     )

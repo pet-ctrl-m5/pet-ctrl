@@ -1,10 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from owners.models import Owner
-from rest_framework.generics import (
-    ListAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
+from permissions.permissions import PetsCRUDPermission
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.generics import (ListAPIView, ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 
 from pets.models import Pet
 from pets.serializers import PetCreationSerializer, PetRetrieveSerializer
@@ -13,6 +12,9 @@ from .mixins import ListCreatePetMixin
 
 
 class ListCreatePetView(ListCreatePetMixin, ListCreateAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [PetsCRUDPermission]
 
     queryset = Pet.objects.all()
     # serializer_class = PetCreationSerializer
@@ -39,11 +41,18 @@ class ListCreatePetView(ListCreatePetMixin, ListCreateAPIView):
 
 class ListPetsView(ListAPIView):
 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [PetsCRUDPermission]
+
     queryset = Pet.objects.all()
     serializer_class = PetRetrieveSerializer
 
 
 class PetsDetailsView(RetrieveUpdateDestroyAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [PetsCRUDPermission]
+
     queryset = Pet.objects.all()
     serializer_class = PetRetrieveSerializer
     lookup_url_kwarg = "pet_id"

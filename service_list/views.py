@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
+from permissions.permissions import CreationPermissions, RUDOwnerPermissions
 from pets.models import Pet
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
@@ -11,7 +13,10 @@ from service_list.serializers import ServiceListSerializer
 
 
 class ListCreateServiceListView(ListCreateAPIView):
-    # queryset = ServiceList.objects.all()
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [CreationPermissions]
+
     queryset = ServiceList.objects.all()
     serializer_class = ServiceListSerializer
     lookup_url_kwarg = "pet_id"
@@ -31,11 +36,19 @@ class ListCreateServiceListView(ListCreateAPIView):
 
 
 class ListServiceList(ListAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [RUDOwnerPermissions]
+
     queryset = ServiceList.objects.all()
     serializer_class = ServiceListSerializer
 
 
 class ServiceListDetailsView(RetrieveUpdateDestroyAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [RUDOwnerPermissions]
+
     queryset = ServiceList.objects.all()
     serializer_class = ServiceListSerializer
     lookup_url_kwarg = "service_list_id"

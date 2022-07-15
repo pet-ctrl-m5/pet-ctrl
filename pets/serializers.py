@@ -23,9 +23,11 @@ class PetCreationSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {"owner": {"write_only": True}}
 
-    def get_owner_id(self, obj: Pet) -> int:
+    def get_owner_id(self, obj: Pet) -> int | None:
 
+        # if obj.owner is not None:
         return obj.owner.id
+        # return None
 
 
 class PetRetrieveSerializer(serializers.ModelSerializer):
@@ -49,14 +51,16 @@ class PetRetrieveSerializer(serializers.ModelSerializer):
         extra_kwargs = {"owner": {"write_only": True}}
         depth = 0
 
-    def get_owner_info(self, obj: Pet) -> dict:
-        info = {
-            "id": obj.owner.id,
-            "name": obj.owner.name,
-            "phone_number": obj.owner.phone_number,
-            "email": obj.owner.email,
-        }
-        return info
+    def get_owner_info(self, obj: Pet) -> dict | None:
+        if obj.owner is not None:
+            info = {
+                "id": obj.owner.id,
+                "name": obj.owner.name,
+                "phone_number": obj.owner.phone_number,
+                "email": obj.owner.email,
+            }
+            return info
+        return None
 
 
 class OwnerPetRetrieveSerializer(serializers.ModelSerializer):

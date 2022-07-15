@@ -7,5 +7,8 @@ class Owner(models.Model):
     address = models.TextField()
     phone_number = models.CharField(max_length=20)
     created_by = models.ForeignKey(
-        "staffs.Staff", on_delete=models.CASCADE, related_name="customers"
+        "staffs.Staff",
+        on_delete=models.SET_NULL,
+        related_name="customers",
+        null=True,
     )

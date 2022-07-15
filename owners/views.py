@@ -1,4 +1,5 @@
 from permissions.permissions import CreationPermissions, RUDOwnerPermissions
+from pets.models import Pet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
     ListCreateAPIView,
@@ -28,8 +29,16 @@ class ListCreateOwnerView(ListCreateOwnerMixin, ListCreateAPIView):
 class RetrieveUpdateOwnerView(RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "owner_id"
 
-    authentication_classes=[TokenAuthentication]
-    permission_classes=[RUDOwnerPermissions]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [RUDOwnerPermissions]
 
     queryset = Owner.objects.all()
     serializer_class = CreateOwnerSerializer
+
+    # def perform_destroy(self, instance):
+    #     pets = Pet.objects.filter(owner__exact=instance)
+
+    #     for item in pets:
+    #         item.owner = None
+
+    #     instance.delete()

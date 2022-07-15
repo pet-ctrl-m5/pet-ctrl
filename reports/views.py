@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, render
+from permissions.permissions import ReportsCRUDPermission
 from pets.models import Pet
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
@@ -11,6 +13,9 @@ from .serializers import ReportSerializer
 
 
 class ListCreateReportView(ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [ReportsCRUDPermission]
+
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     lookup_url_kwarg = "pet_id"
@@ -30,11 +35,19 @@ class ListCreateReportView(ListCreateAPIView):
 
 
 class ListReportsView(ListAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [ReportsCRUDPermission]
+
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
 
 
 class ReportsDetailsView(RetrieveUpdateDestroyAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [ReportsCRUDPermission]
+
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     lookup_url_kwarg = "report_id"
