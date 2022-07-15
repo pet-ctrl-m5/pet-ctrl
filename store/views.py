@@ -1,11 +1,9 @@
-from django.shortcuts import render
 from rest_framework.authentication import TokenAuthentication
 
 # Create your views here.
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 
 from permissions.permissions import StoreCRUDPermission
-from store.mixins import SerializeByMethodMixin
 
 from .models import Store
 from .serializers import CreateStoreSerializer, ListStoreSerializer

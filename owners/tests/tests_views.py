@@ -13,9 +13,6 @@ class OwnerViewTest(APITestCase):
 
         self.super_user = Staff.objects.create_superuser(**superuser)
 
-        # import ipdb
-        # ipdb.set_trace()
-
         self.token_staff = Token.objects.create(user=self.staff)
         self.token_doctor = Token.objects.create(user=self.doctor)
         self.token_manager = Token.objects.create(user=self.manager)
@@ -94,10 +91,10 @@ class OwnerViewTest(APITestCase):
         self.assertEquals(response.status_code, 201)
     
     def test_superuser_can_update_a_owner(self):
-            owner = Owner.objects.get(id=1)
-            self.client.credentials(HTTP_AUTHORIZATION="Token " + self.toke_super_user.key)
-            response = self.client.patch(f"/api/owners/{owner.id}/")
-            self.assertEquals(response.status_code, 200)
+        owner = Owner.objects.get(id=1)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.toke_super_user.key)
+        response = self.client.patch(f"/api/owners/{owner.id}/")
+        self.assertEquals(response.status_code, 200)
 
     def test_superuser_can_delete_a_owner(self):
         owner = Owner.objects.get(id=1)
