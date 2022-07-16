@@ -44,11 +44,11 @@ class StoreViewTest(APITestCase):
         response = self.client.patch(f"/api/stores/{store.id}/")
         self.assertEquals(response.status_code, 200)
 
-    def test_super_user_can_soft_delete_a_store(self):
-        store = Store.objects.get(id=1)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_super_user.key)
-        response = self.client.patch(f"/api/stores/{store.id}/", data={"is_active": False})
-        self.assertEquals(response.status_code, 200)
+    # def test_super_user_can_soft_delete_a_store(self):
+    #     store = Store.objects.get(id=1)
+    #     self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_super_user.key)
+    #     response = self.client.patch(f"/api/stores/{store.id}/", data={"is_active": False})
+    #     self.assertEquals(response.status_code, 200)
 
     def test_super_user_cant_create_a_store_with_wrong_state_choice(self):
         self.client.credentials(
