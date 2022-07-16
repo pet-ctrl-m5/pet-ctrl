@@ -6,7 +6,9 @@ omit =
     manage.py
     pets/*
     reports/*
-    service_list/*
+    staffs/*
+    owners/*
+    permissions/*
     services/*
     store/*
 
