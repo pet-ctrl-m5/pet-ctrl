@@ -32,7 +32,7 @@ class ListCreateServiceListView(ListCreateAPIView):
         if self.request.method == "GET":
             service_lists = ServiceList.objects.filter(pet_id__exact=pet)
             return service_lists
-        return super().get_queryset()
+        # return super().get_queryset()
 
 
 class ListServiceList(ListAPIView):

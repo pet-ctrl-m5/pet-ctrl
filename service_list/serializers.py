@@ -73,15 +73,16 @@ class ServiceListSerializer(serializers.ModelSerializer):
 
         list_to_add = []
 
-        for item in services_list:
-            service = Service.objects.filter(
-                name__iexact=item["name"], is_active__exact=True
-            ).first()
+        if services_list:
+            for item in services_list:
+                service = Service.objects.filter(
+                    name__iexact=item["name"], is_active__exact=True
+                ).first()
 
-            if not service:
-                raise ServiceDoesNotExists
+                if not service:
+                    raise ServiceDoesNotExists
 
-            list_to_add.append(service)
+                list_to_add.append(service)
 
         sub_total = sum(item.price for item in list_to_add)
 
