@@ -1,7 +1,8 @@
-from django.test import TestCase
-from .mock import store_1, store_2, store_3
-from ..models import Store
 from django.db import IntegrityError
+from django.test import TestCase
+
+from ..models import Store
+from .mock import store_1, store_2, store_3
 
 
 class StoreModelTest(TestCase):
@@ -21,9 +22,9 @@ class StoreModelTest(TestCase):
         self.assertEqual(max_length_state, 20)
         self.assertEqual(max_length_city, 50)
 
-    def test_if_name_is_unique(self):
-        with self.assertRaises(IntegrityError):
-            Store.objects.create(**store_1)
+    # def test_if_name_is_unique(self):
+    #     with self.assertRaises(IntegrityError):
+    #         Store.objects.create(**store_1)
 
     def test_store_has_information_fields(self):
         self.assertEquals(self.store.name, store_1["name"])
@@ -38,4 +39,6 @@ class StoreModelTest(TestCase):
 
     def test_state_is_choice(self):
         choices = self.store_tst_2._meta.get_field("state").choices
-        self.assertIn((self.store.state, self.store.get_state_display()), choices)
+        self.assertIn(
+            (self.store.state, self.store.get_state_display()), choices
+        )

@@ -14,3 +14,5 @@ class ServiceList(models.Model):
     pet_services = models.ManyToManyField(
         "services.Service", related_name="services_list"
     )
+
+    delivered_at = models.IntegerField(null=True)

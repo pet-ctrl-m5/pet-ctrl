@@ -23,8 +23,14 @@ class ListCreateServiceListView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         pet = get_object_or_404(Pet, pk=self.kwargs["pet_id"])
+        store = self.request.user.store
 
-        serializer.save(pet=pet)
+        if store is None:
+            store_id = None
+        else:
+            store_id = store.id
+
+        serializer.save(pet=pet, delivered_at=store_id)
 
     def get_queryset(self):
         pet = get_object_or_404(Pet, pk=self.kwargs["pet_id"])
