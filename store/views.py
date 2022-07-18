@@ -12,7 +12,10 @@ from rest_framework.generics import (
 from service_list.models import ServiceList
 from service_list.serializers import FinancialReportSerializer
 
-from permissions.permissions import StoreCRUDPermission
+from permissions.permissions import (
+    FinancialReportsPermission,
+    StoreCRUDPermission,
+)
 
 from .models import Store
 from .serializers import CreateStoreSerializer, ListStoreSerializer
@@ -36,6 +39,8 @@ class RetrieveUpdateStoreView(RetrieveUpdateAPIView):
 
 
 class FinancialReports(ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [FinancialReportsPermission]
 
     queryset = ServiceList.objects.all()
     serializer_class = FinancialReportSerializer

@@ -11,7 +11,9 @@ class ServiceModelTests(TestCase):
         cls.service_1 = Service(**service_1)
         cls.service_2 = Service.objects.create(**service_2)
 
-        cls.service_list = {"discount": 10}
+        cls.service_list = {
+            "discount": 10,
+        }
         cls.service_list_2 = {}
 
         cls.list = [
