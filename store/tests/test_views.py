@@ -1,16 +1,16 @@
 from django.db import IntegrityError
-from rest_framework.test import APITestCase
-from rest_framework.authtoken.models import Token
-
 from owners.tests.mock import (
     staff_doctor,
     staff_manager,
     staff_staff,
     superuser,
 )
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APITestCase
+from staffs.models import Staff
+
 from ..models import Store
 from .mock import store_1, store_2, store_3, store_4
-from staffs.models import Staff
 
 
 class StoreViewTest(APITestCase):
@@ -41,14 +41,31 @@ class StoreViewTest(APITestCase):
         self.client.credentials(
             HTTP_AUTHORIZATION=f"Token " + self.token_super_user.key
         )
-        response = self.client.patch(f"/api/stores/{store.id}/")
+        response = self.client.patch(
+            f"/api/stores/{store.id}/", data={"name": "Nome patch"}
+        )
         self.assertEquals(response.status_code, 200)
 
-    # def test_super_user_can_soft_delete_a_store(self):
-    #     store = Store.objects.get(id=1)
-    #     self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_super_user.key)
-    #     response = self.client.patch(f"/api/stores/{store.id}/", data={"is_active": False})
-    #     self.assertEquals(response.status_code, 200)
+    def test_cannot_create_store_with_same_name(self):
+        store = Store.objects.get(id=1)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_super_user.key
+        )
+        self.client.post("/api/stores/", store_3)
+
+        response = self.client.post("/api/stores/", store_3)
+
+        self.assertEquals(response.status_code, 400)
+
+    def test_super_user_can_soft_delete_a_store(self):
+        store = Store.objects.get(id=1)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_super_user.key
+        )
+        response = self.client.patch(
+            f"/api/stores/{store.id}/", data={"is_active": False}
+        )
+        self.assertEquals(response.status_code, 200)
 
     def test_super_user_cant_create_a_store_with_wrong_state_choice(self):
         self.client.credentials(
@@ -71,40 +88,58 @@ class StoreViewTest(APITestCase):
     # Manager CRUD tests - Only error tests
 
     def test_manager_cant_create_a_store(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_manager.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_manager.key
+        )
         response = self.client.post("/api/stores/", store_3)
         self.assertEquals(response.status_code, 403)
 
     def test_manager_cant_update_a_store(self):
         store = Store.objects.get(id=1)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_manager.key)
-        response = self.client.patch(f"/api/stores/{store.id}/", {"name": "Lojinha"})
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_manager.key
+        )
+        response = self.client.patch(
+            f"/api/stores/{store.id}/", {"name": "Lojinha"}
+        )
         self.assertEquals(response.status_code, 403)
 
     # Staff CRUD tests - Only error tests
 
     def test_staff_cant_create_a_store(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_staff.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_staff.key
+        )
         response = self.client.post("/api/stores/", store_3)
         self.assertEquals(response.status_code, 403)
 
     def test_staff_cant_update_a_store(self):
         store = Store.objects.get(id=1)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_staff.key)
-        response = self.client.patch(f"/api/stores/{store.id}/", {"name": "Lojinha"})
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_staff.key
+        )
+        response = self.client.patch(
+            f"/api/stores/{store.id}/", {"name": "Lojinha"}
+        )
         self.assertEquals(response.status_code, 403)
 
     # Doctor CRUD tests - Only error tests
 
     def test_doctor_cant_create_a_store(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_doctor.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_doctor.key
+        )
         response = self.client.post("/api/stores/", store_3)
         self.assertEquals(response.status_code, 403)
 
     def test_doctor_cant_update_a_store(self):
         store = Store.objects.get(id=1)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_doctor.key)
-        response = self.client.patch(f"/api/stores/{store.id}/", {"name": "Lojinha"})
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_doctor.key
+        )
+        response = self.client.patch(
+            f"/api/stores/{store.id}/", {"name": "Lojinha"}
+        )
         self.assertEquals(response.status_code, 403)
 
     # List with and without authentication
@@ -116,6 +151,8 @@ class StoreViewTest(APITestCase):
 
     def test_list_a_specific_stores(self):
         store = Store.objects.get(id=1)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token " + self.token_staff.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token " + self.token_staff.key
+        )
         response = self.client.get(f"/api/stores/{store.id}/")
         self.assertEquals(response.status_code, 200)
