@@ -1,7 +1,14 @@
-service_1 = {"name": "serviço 1", "category": "cateogira 1", "price": 10.99}
+service_1 = {"name": "serviço 1", "category": "categoria 1", "price": 10.99}
 
-service_2 = {"name": "serviço 2", "category": "cateogira 1", "price": 20.56}
+service_2 = {"name": "serviço 2", "category": "categoria 1", "price": 20.56}
 
+service_2_update = {"name": "serviço 2 patch", "category": "categoria 1"}
+
+service_2_price = {
+    "name": "serviço 2 patch",
+    "category": "categoria 1",
+    "price": 50,
+}
 
 admin = {
     "username": "admin",
