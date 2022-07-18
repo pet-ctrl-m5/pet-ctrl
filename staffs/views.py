@@ -26,7 +26,10 @@ class CreateStaffView(CreateAPIView):
     lookup_url_kwarg = "store_id"
 
     def perform_create(self, serializer):
-        store = get_object_or_404(Store, pk=self.kwargs["store_id"])
+        store = get_object_or_404(
+            Store.objects.filter(is_active__exact=True),
+            pk=self.kwargs["store_id"],
+        )
 
         serializer.save(store=store)
 

@@ -19,6 +19,7 @@ class ServiceListSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             # "pet": {"write_only": True},
             "total": {"read_only": True},
+            "delivered_at": {"read_only": True},
         }
 
     def validate_discount(self, value):
@@ -94,3 +95,9 @@ class ServiceListSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class FinancialReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceList
+        fields = ["id", "pet_id", "created_at", "discount", "total"]
