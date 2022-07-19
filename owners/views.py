@@ -12,9 +12,11 @@ from .serializers import CreateOwnerSerializer, ListOwnersSerializer
 
 
 class ListCreateOwnerView(ListCreateOwnerMixin, ListCreateAPIView):
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [CreationPermissions]
 
+    
     queryset = Owner.objects.all()
     serializer_map = {
         "GET": ListOwnersSerializer,
@@ -34,11 +36,3 @@ class RetrieveUpdateOwnerView(RetrieveUpdateDestroyAPIView):
 
     queryset = Owner.objects.all()
     serializer_class = CreateOwnerSerializer
-
-    # def perform_destroy(self, instance):
-    #     pets = Pet.objects.filter(owner__exact=instance)
-
-    #     for item in pets:
-    #         item.owner = None
-
-    #     instance.delete()

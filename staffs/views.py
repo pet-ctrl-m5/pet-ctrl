@@ -55,6 +55,7 @@ class DetailStaffView(RetrieveUpdateDestroyAPIView):
 class RetrieveStaffByToken(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = [RegisterSerializer]
 
     def get(self, request):
         user = request.user
