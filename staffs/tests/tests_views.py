@@ -1,5 +1,3 @@
-from urllib import response
-
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.views import status
@@ -190,3 +188,21 @@ class StaffViewsTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(staffs), response.data["count"])
+
+    def test_view_should_return_user_data(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token_staff}")
+
+        response = self.client.get("/api/staffs/me/data/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("id", response.data)
+        self.assertIn("username", response.data)
+        self.assertIn("first_name", response.data)
+        self.assertIn("last_name", response.data)
+        self.assertIn("is_active", response.data)
+        self.assertIn("is_superuser", response.data)
+        self.assertIn("is_manager", response.data)
+        self.assertIn("is_staff", response.data)
+        self.assertIn("is_doctor", response.data)
+        self.assertIn("date_joined", response.data)
+        self.assertIn("store", response.data)

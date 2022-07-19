@@ -9,10 +9,12 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView, Response, status
 from store.models import Store
 
 from staffs.models import Staff
-from staffs.serializers import RegisterSerializer
+from staffs.serializers import ListStaffsSerializer, RegisterSerializer
 
 # Create your views here.
 
@@ -48,3 +50,15 @@ class DetailStaffView(RetrieveUpdateDestroyAPIView):
 
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer
+
+
+class RetrieveStaffByToken(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        serialized = RegisterSerializer(instance=user)
+
+        return Response(serialized.data, status.HTTP_200_OK)

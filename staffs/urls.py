@@ -11,4 +11,5 @@ urlpatterns = [
     path("staffs/", s_views.ListStaffView.as_view()),
     path("staffs/<pk>/", s_views.DetailStaffView.as_view()),
     path("login/", views.obtain_auth_token),
+    path("staffs/me/data/", s_views.RetrieveStaffByToken.as_view()),
 ]
