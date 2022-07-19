@@ -36,12 +36,24 @@ class CustomUserManager(BaseUserManager):
         )
 
     def create_user(
-        self, username, password, is_manager, is_doctor, is_staff, **extra_fields
+        self,
+        username,
+        password,
+        is_manager,
+        is_doctor,
+        is_staff,
+        **extra_fields
     ):
         if is_staff:
             is_manager = False
             is_doctor = False
 
         return self._create_user(
-            username, password, False, is_manager, is_doctor, is_staff, **extra_fields
+            username,
+            password,
+            False,
+            is_manager,
+            is_doctor,
+            is_staff,
+            **extra_fields
         )
