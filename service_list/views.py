@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
+from permissions.permissions import CreationPermissions, RUDOwnerPermissions
 from pets.models import Pet
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
     ListAPIView,
     ListCreateAPIView,
@@ -11,15 +13,24 @@ from service_list.serializers import ServiceListSerializer
 
 
 class ListCreateServiceListView(ListCreateAPIView):
-    # queryset = ServiceList.objects.all()
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [CreationPermissions]
+
     queryset = ServiceList.objects.all()
     serializer_class = ServiceListSerializer
     lookup_url_kwarg = "pet_id"
 
     def perform_create(self, serializer):
         pet = get_object_or_404(Pet, pk=self.kwargs["pet_id"])
+        store = self.request.user.store
 
-        serializer.save(pet=pet)
+        if store is None:
+            store_id = None
+        else:
+            store_id = store.id
+
+        serializer.save(pet=pet, delivered_at=store_id)
 
     def get_queryset(self):
         pet = get_object_or_404(Pet, pk=self.kwargs["pet_id"])
@@ -27,15 +38,23 @@ class ListCreateServiceListView(ListCreateAPIView):
         if self.request.method == "GET":
             service_lists = ServiceList.objects.filter(pet_id__exact=pet)
             return service_lists
-        return super().get_queryset()
+        # return super().get_queryset()
 
 
 class ListServiceList(ListAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [RUDOwnerPermissions]
+
     queryset = ServiceList.objects.all()
     serializer_class = ServiceListSerializer
 
 
 class ServiceListDetailsView(RetrieveUpdateDestroyAPIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [RUDOwnerPermissions]
+
     queryset = ServiceList.objects.all()
     serializer_class = ServiceListSerializer
     lookup_url_kwarg = "service_list_id"

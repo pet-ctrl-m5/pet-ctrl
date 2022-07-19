@@ -13,12 +13,21 @@ class ReportSerializer(serializers.ModelSerializer):
         # exclude = ["pet"]
         extra_kwargs = {"pet": {"write_only": True}}
 
-    def get_pet_info(self, obj: Report) -> dict:
-        return {
-            "id": obj.pet.id,
-            "name": obj.pet.name,
-            "owner": obj.pet.owner.name,
-        }
+    def get_pet_info(self, obj: Report) -> dict | None:
+
+        if obj.pet is not None:
+            owner = obj.pet.owner
+            if owner is not None:
+                owner_name = obj.pet.owner.name
+            else:
+                owner_name = None
+            return {
+                "id": obj.pet.id,
+                "name": obj.pet.name,
+                "owner": owner_name,
+            }
+
+        return None
 
 
 class ReportListPetSerializer(serializers.ModelSerializer):

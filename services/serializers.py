@@ -32,6 +32,11 @@ class ServiceSerializer(serializers.ModelSerializer):
 
             instance.save()
 
+            for key, value in validated_data.items():
+                setattr(new_service, key, value)
+
+            new_service.save()
+
             return new_service
 
         for key, value in validated_data.items():

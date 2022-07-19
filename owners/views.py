@@ -1,4 +1,5 @@
 from permissions.permissions import CreationPermissions, RUDOwnerPermissions
+from pets.models import Pet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import (
     ListCreateAPIView,
@@ -11,9 +12,11 @@ from .serializers import CreateOwnerSerializer, ListOwnersSerializer
 
 
 class ListCreateOwnerView(ListCreateOwnerMixin, ListCreateAPIView):
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [CreationPermissions]
 
+    
     queryset = Owner.objects.all()
     serializer_map = {
         "GET": ListOwnersSerializer,
@@ -28,8 +31,8 @@ class ListCreateOwnerView(ListCreateOwnerMixin, ListCreateAPIView):
 class RetrieveUpdateOwnerView(RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "owner_id"
 
-    authentication_classes=[TokenAuthentication]
-    permission_classes=[RUDOwnerPermissions]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [RUDOwnerPermissions]
 
     queryset = Owner.objects.all()
     serializer_class = CreateOwnerSerializer

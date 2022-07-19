@@ -6,5 +6,8 @@ class Report(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     pet = models.ForeignKey(
-        "pets.Pet", on_delete=models.CASCADE, related_name="reports"
+        "pets.Pet",
+        on_delete=models.SET_NULL,
+        related_name="reports",
+        null=True,
     )
