@@ -7,6 +7,7 @@ from owners.tests.mock import (
 )
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
+from services.models import Service
 from staffs.models import Staff
 
 from ..models import Store

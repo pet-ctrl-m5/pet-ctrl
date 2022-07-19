@@ -169,7 +169,7 @@ class FinancialReportsPermission(permissions.BasePermission):
         if not request.user.is_authenticated:
             return False
 
-        if not request.user.is_superuser or request.user.is_manager:
+        if not (request.user.is_superuser or request.user.is_manager):
             return False
 
         return True

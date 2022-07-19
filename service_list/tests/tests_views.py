@@ -5,6 +5,7 @@ from rest_framework.views import status
 from service_list.models import ServiceList
 from services.models import Service
 from staffs.models import Staff
+from store.models import Store
 
 from .mocks import (
     doctor,
@@ -14,6 +15,7 @@ from .mocks import (
     service_1,
     service_2,
     staff,
+    store,
     super_user,
 )
 
@@ -24,12 +26,14 @@ class ServiceListVIewsTests(APITestCase):
         cls.pet = Pet.objects.create(**pet_data)
         cls.pet_2 = Pet.objects.create(**pet_data_2)
 
+        cls.store = Store.objects.create(**store)
+
         cls.service_1 = Service.objects.create(**service_1)
         cls.service_2 = Service.objects.create(**service_2)
 
         cls.admin = Staff.objects.create_superuser(**super_user)
         cls.staff = Staff.objects.create(**staff)
-        cls.manager = Staff.objects.create(**manager)
+        cls.manager = Staff.objects.create(**manager, store=cls.store)
         cls.doctor = Staff.objects.create(**doctor)
 
         cls.token_admin = Token.objects.create(user=cls.admin)
@@ -75,7 +79,9 @@ class ServiceListVIewsTests(APITestCase):
         }
 
         cls.list_1 = [
-            ServiceList.objects.create(total=0, pet=cls.pet)
+            ServiceList.objects.create(
+                total=0, pet=cls.pet, delivered_at=cls.store.id
+            )
             for _ in range(1, 20)
         ]
         cls.list_2 = [
@@ -484,3 +490,52 @@ class ServiceListVIewsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertIn("detail", response.data)
         self.assertEqual("service not found", str(response.data["detail"]))
+
+    def test_access_financial_reports_without_token(self):
+
+        response = self.client.get(
+            f"/api/stores/financial/?store={self.store.id}/"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_access_financial_reports_superuser(self):
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token_admin}")
+
+        response = self.client.get(
+            f"/api/stores/financial/?store={self.store.id}"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], len(self.list_1))
+
+    def test_access_financial_reports_null_store_manager(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.token_manager}"
+        )
+
+        response = self.client.get(f"/api/stores/financial/?store=null")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], len(self.list_2))
+
+    def test_access_financial_reports_staff(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token_staff}")
+
+        response = self.client.get(
+            f"/api/stores/financial/?store={self.store.id}"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_access_financial_reports_doctor(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.token_doctor}"
+        )
+
+        response = self.client.get(
+            f"/api/stores/financial/?store={self.store.id}"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

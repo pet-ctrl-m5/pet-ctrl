@@ -22,6 +22,13 @@ service_list_1 = {"discount": 0}
 
 service_list_2 = {"discount": 10}
 
+store = {
+    "name": "Test store",
+    "address": "test address",
+    "city": "Nárnia",
+    "state": "SP",
+}
+
 super_user = {
     "username": "admin",
     "first_name": "Admin",

@@ -12,7 +12,7 @@ from rest_framework.generics import (
 from store.models import Store
 
 from staffs.models import Staff
-from staffs.serializers import ListStaffsSerializer, RegisterSerializer
+from staffs.serializers import RegisterSerializer
 
 # Create your views here.
 
