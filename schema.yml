@@ -1,0 +1,1961 @@
+openapi: 3.0.3
+info:
+  title: Pet CTRL
+  version: 1.0.0
+paths:
+  /api/login/:
+    post:
+      operationId: login_create
+      tags:
+      - login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/owners/:
+    get:
+      operationId: owners_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - owners
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListOwnersList'
+          description: ''
+    post:
+      operationId: owners_create
+      tags:
+      - owners
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOwner'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateOwner'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateOwner'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOwner'
+          description: ''
+  /api/owners/{owner_id}/:
+    get:
+      operationId: owners_retrieve
+      parameters:
+      - in: path
+        name: owner_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - owners
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOwner'
+          description: ''
+    put:
+      operationId: owners_update
+      parameters:
+      - in: path
+        name: owner_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - owners
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOwner'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateOwner'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateOwner'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOwner'
+          description: ''
+    patch:
+      operationId: owners_partial_update
+      parameters:
+      - in: path
+        name: owner_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - owners
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateOwner'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateOwner'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateOwner'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOwner'
+          description: ''
+    delete:
+      operationId: owners_destroy
+      parameters:
+      - in: path
+        name: owner_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - owners
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/pets/:
+    get:
+      operationId: pets_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - pets
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPetRetrieveList'
+          description: ''
+  /api/pets/{pet_id}/:
+    get:
+      operationId: pets_retrieve
+      parameters:
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetRetrieve'
+          description: ''
+    put:
+      operationId: pets_update
+      parameters:
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRetrieve'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PetRetrieve'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PetRetrieve'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetRetrieve'
+          description: ''
+    patch:
+      operationId: pets_partial_update
+      parameters:
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPetRetrieve'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPetRetrieve'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPetRetrieve'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetRetrieve'
+          description: ''
+    delete:
+      operationId: pets_destroy
+      parameters:
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/pets/{pet_id}/serviceslist/:
+    get:
+      operationId: pets_serviceslist_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceListList'
+          description: ''
+    post:
+      operationId: pets_serviceslist_create
+      parameters:
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceList'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+          description: ''
+  /api/pets/owner/{owner_id}/:
+    get:
+      operationId: pets_owner_list
+      parameters:
+      - in: path
+        name: owner_id
+        schema:
+          type: integer
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - pets
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPetRetrieveList'
+          description: ''
+    post:
+      operationId: pets_owner_create
+      parameters:
+      - in: path
+        name: owner_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetCreation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PetCreation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PetCreation'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetCreation'
+          description: ''
+  /api/reports/:
+    get:
+      operationId: reports_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportList'
+          description: ''
+  /api/reports/{report_id}/:
+    get:
+      operationId: reports_retrieve
+      parameters:
+      - in: path
+        name: report_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    put:
+      operationId: reports_update
+      parameters:
+      - in: path
+        name: report_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Report'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Report'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    patch:
+      operationId: reports_partial_update
+      parameters:
+      - in: path
+        name: report_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    delete:
+      operationId: reports_destroy
+      parameters:
+      - in: path
+        name: report_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/reports/pets/{pet_id}/:
+    get:
+      operationId: reports_pets_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportList'
+          description: ''
+    post:
+      operationId: reports_pets_create
+      parameters:
+      - in: path
+        name: pet_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Report'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Report'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+  /api/services/:
+    get:
+      operationId: services_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - services
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceList'
+          description: ''
+    post:
+      operationId: services_create
+      tags:
+      - services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+  /api/services/{service_id}/:
+    get:
+      operationId: services_retrieve
+      parameters:
+      - in: path
+        name: service_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - services
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    put:
+      operationId: services_update
+      parameters:
+      - in: path
+        name: service_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    patch:
+      operationId: services_partial_update
+      parameters:
+      - in: path
+        name: service_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedService'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedService'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedService'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+  /api/serviceslist/:
+    get:
+      operationId: serviceslist_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - serviceslist
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceListList'
+          description: ''
+  /api/serviceslist/{service_list_id}/:
+    get:
+      operationId: serviceslist_retrieve
+      parameters:
+      - in: path
+        name: service_list_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - serviceslist
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+          description: ''
+    put:
+      operationId: serviceslist_update
+      parameters:
+      - in: path
+        name: service_list_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - serviceslist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceList'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+          description: ''
+    patch:
+      operationId: serviceslist_partial_update
+      parameters:
+      - in: path
+        name: service_list_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - serviceslist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceList'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+          description: ''
+    delete:
+      operationId: serviceslist_destroy
+      parameters:
+      - in: path
+        name: service_list_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - serviceslist
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/:
+    get:
+      operationId: staffs_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRegisterList'
+          description: ''
+  /api/staffs/{id}/:
+    get:
+      operationId: staffs_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+    put:
+      operationId: staffs_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+    patch:
+      operationId: staffs_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRegister'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+    delete:
+      operationId: staffs_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/stores/:
+    get:
+      operationId: stores_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - stores
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCreateStoreList'
+          description: ''
+    post:
+      operationId: stores_create
+      tags:
+      - stores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStore'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateStore'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateStore'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateStore'
+          description: ''
+  /api/stores/{id}/:
+    get:
+      operationId: stores_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this store.
+        required: true
+      tags:
+      - stores
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListStore'
+          description: ''
+    put:
+      operationId: stores_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this store.
+        required: true
+      tags:
+      - stores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListStore'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ListStore'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ListStore'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListStore'
+          description: ''
+    patch:
+      operationId: stores_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this store.
+        required: true
+      tags:
+      - stores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedListStore'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedListStore'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedListStore'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListStore'
+          description: ''
+  /api/stores/{store_id}/staffs/register/:
+    post:
+      operationId: stores_staffs_register_create
+      parameters:
+      - in: path
+        name: store_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - stores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+components:
+  schemas:
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    CreateOwner:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        address:
+          type: string
+        phone_number:
+          type: string
+          maxLength: 20
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetCreation'
+          readOnly: true
+      required:
+      - address
+      - created_by
+      - email
+      - id
+      - name
+      - pets
+      - phone_number
+    CreateStore:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        address:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+          maxLength: 50
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        is_active:
+          type: boolean
+      required:
+      - address
+      - city
+      - id
+      - name
+    ListOwners:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        address:
+          type: string
+        phone_number:
+          type: string
+          maxLength: 20
+        created_by:
+          type: integer
+          nullable: true
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/OwnerPetRetrieve'
+          readOnly: true
+      required:
+      - address
+      - email
+      - id
+      - name
+      - pets
+      - phone_number
+    ListStaffs:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          maxLength: 100
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+      required:
+      - first_name
+      - id
+      - last_name
+      - username
+    ListStore:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        address:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+          maxLength: 50
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        is_active:
+          type: boolean
+        staffs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListStaffs'
+          readOnly: true
+      required:
+      - address
+      - city
+      - id
+      - name
+      - staffs
+    OwnerPetRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 30
+        breed:
+          type: string
+          maxLength: 30
+        birthday:
+          type: string
+          format: date
+        is_alive:
+          type: boolean
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+          readOnly: true
+      required:
+      - birthday
+      - breed
+      - id
+      - name
+      - reports
+      - type
+    PaginatedCreateStoreList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateStore'
+    PaginatedListOwnersList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListOwners'
+    PaginatedPetRetrieveList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetRetrieve'
+    PaginatedRegisterList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Register'
+    PaginatedReportList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+    PaginatedServiceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+    PaginatedServiceListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceList'
+    PatchedCreateOwner:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        address:
+          type: string
+        phone_number:
+          type: string
+          maxLength: 20
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetCreation'
+          readOnly: true
+    PatchedListStore:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        address:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+          maxLength: 50
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        is_active:
+          type: boolean
+        staffs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListStaffs'
+          readOnly: true
+    PatchedPetRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 30
+        breed:
+          type: string
+          maxLength: 30
+        birthday:
+          type: string
+          format: date
+        is_alive:
+          type: boolean
+        owner_info:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportListPet'
+          readOnly: true
+        customer_services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceList'
+          readOnly: true
+    PatchedRegister:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          maxLength: 100
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_manager:
+          type: boolean
+        is_doctor:
+          type: boolean
+        is_staff:
+          type: boolean
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        store:
+          type: integer
+          nullable: true
+    PatchedReport:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        report:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        pet_info:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+    PatchedService:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        category:
+          type: string
+          maxLength: 50
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedServiceList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        pet_id:
+          type: integer
+          readOnly: true
+        pet_services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServicesToList'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        discount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+    PetCreation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 30
+        breed:
+          type: string
+          maxLength: 30
+        birthday:
+          type: string
+          format: date
+        is_alive:
+          type: boolean
+        owner_id:
+          type: integer
+          nullable: true
+          readOnly: true
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+          readOnly: true
+        customer_services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceList'
+          readOnly: true
+      required:
+      - birthday
+      - breed
+      - customer_services
+      - id
+      - name
+      - owner_id
+      - reports
+      - type
+    PetRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 30
+        breed:
+          type: string
+          maxLength: 30
+        birthday:
+          type: string
+          format: date
+        is_alive:
+          type: boolean
+        owner_info:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportListPet'
+          readOnly: true
+        customer_services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceList'
+          readOnly: true
+      required:
+      - birthday
+      - breed
+      - customer_services
+      - id
+      - name
+      - owner_info
+      - reports
+      - type
+    Register:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          maxLength: 100
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_manager:
+          type: boolean
+        is_doctor:
+          type: boolean
+        is_staff:
+          type: boolean
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        store:
+          type: integer
+          nullable: true
+      required:
+      - date_joined
+      - first_name
+      - id
+      - is_doctor
+      - is_manager
+      - is_staff
+      - last_name
+      - password
+      - username
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        report:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        pet_info:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - pet_info
+      - report
+      - updated_at
+    ReportListPet:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        report:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - report
+      - updated_at
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        category:
+          type: string
+          maxLength: 50
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - category
+      - created_at
+      - id
+      - name
+      - price
+      - updated_at
+    ServiceList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        pet_id:
+          type: integer
+          readOnly: true
+        pet_services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServicesToList'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        discount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - pet_id
+      - pet_services
+      - total
+    ServicesToList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        category:
+          type: string
+          readOnly: true
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          readOnly: true
+      required:
+      - category
+      - id
+      - name
+      - price
+    StateEnum:
+      enum:
+      - AC
+      - AL
+      - AP
+      - AM
+      - BA
+      - CE
+      - DF
+      - ES
+      - GO
+      - MA
+      - MT
+      - MS
+      - MG
+      - PA
+      - PB
+      - PE
+      - PI
+      - RJ
+      - RN
+      - RS
+      - RO
+      - RR
+      - SC
+      - SP
+      - SE
+      - TO
+      - NONE
+      type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
