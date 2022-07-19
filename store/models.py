@@ -33,7 +33,7 @@ class StateChoices(models.TextChoices):
 
 class Store(models.Model):
 
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=50)
     state = models.CharField(

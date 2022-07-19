@@ -9,6 +9,8 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView, Response, status
 from store.models import Store
 
 from staffs.models import Staff
@@ -26,7 +28,10 @@ class CreateStaffView(CreateAPIView):
     lookup_url_kwarg = "store_id"
 
     def perform_create(self, serializer):
-        store = get_object_or_404(Store, pk=self.kwargs["store_id"])
+        store = get_object_or_404(
+            Store.objects.filter(is_active__exact=True),
+            pk=self.kwargs["store_id"],
+        )
 
         serializer.save(store=store)
 
@@ -45,3 +50,15 @@ class DetailStaffView(RetrieveUpdateDestroyAPIView):
 
     queryset = Staff.objects.all()
     serializer_class = RegisterSerializer
+
+
+class RetrieveStaffByToken(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        serialized = RegisterSerializer(instance=user)
+
+        return Response(serialized.data, status.HTTP_200_OK)

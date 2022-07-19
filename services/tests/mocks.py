@@ -1,37 +1,16 @@
-pet_data = {
-    "name": "Pet",
-    "type": "Test",
-    "breed": "Test Breed",
-    "birthday": "1996-08-28",
-    "is_alive": True,
+service_1 = {"name": "serviço 1", "category": "categoria 1", "price": 10.99}
+
+service_2 = {"name": "serviço 2", "category": "categoria 1", "price": 20.56}
+
+service_2_update = {"name": "serviço 2 patch", "category": "categoria 1"}
+
+service_2_price = {
+    "name": "serviço 2 patch",
+    "category": "categoria 1",
+    "price": 50,
 }
 
-pet_data_2 = {
-    "name": "Pet 2",
-    "type": "Test 2",
-    "breed": "Test Breed 2",
-    "birthday": "1996-08-28",
-    "is_alive": True,
-}
-
-report_data = {"report": "Test Report"}
-report_data_2 = {"report": "Test Report patch"}
-
-pet_owner = {
-    "name": "Owner",
-    "email": "owner@mail.com",
-    "address": "owner address",
-    "phone_number": "12345678910",
-}
-
-pet_owner_2 = {
-    "name": "Owner",
-    "email": "owner2@mail.com",
-    "address": "owner2 address",
-    "phone_number": "12345678910",
-}
-
-super_user = {
+admin = {
     "username": "admin",
     "first_name": "Admin",
     "last_name": "Teste",

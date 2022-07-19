@@ -50,6 +50,7 @@ THIRD_PART_APPS = [
     "rest_framework",
     "drf_spectacular",
     "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 MY_APPS = [
@@ -66,6 +67,7 @@ MY_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PART_APPS + MY_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -74,6 +76,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+	'http://localhost:3000'
+]
+
+CORS_ALLOW_ALL_ORIGINS=True
 
 ROOT_URLCONF = "base_project_pet_ctrl.urls"
 

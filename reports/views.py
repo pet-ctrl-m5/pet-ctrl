@@ -31,7 +31,6 @@ class ListCreateReportView(ListCreateAPIView):
         if self.request.method == "GET":
             reports = Report.objects.filter(pet_id__exact=pet)
             return reports
-        return super().get_queryset()
 
 
 class ListReportsView(ListAPIView):
