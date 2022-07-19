@@ -1,6 +1,7 @@
-from urllib import request
+from datetime import datetime, timedelta, timezone
 
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework.authentication import TokenAuthentication
 
 # Create your views here.
@@ -44,19 +45,33 @@ class FinancialReports(ListAPIView):
 
     queryset = ServiceList.objects.all()
     serializer_class = FinancialReportSerializer
+    pagination_class = None
 
     def get_queryset(self):
 
-        route_parameter = self.request.GET.get("store")
+        store_id = self.request.GET.get("store")
+        start = self.request.GET.get("start")
+        finish = self.request.GET.get("finish")
 
-        if route_parameter == "null":
-            queryset = ServiceList.objects.filter(delivered_at__exact=None)
+        if not finish:
+            finish = timezone.now().isoformat()
+            # finish = finish.isoformat()
+
+        if not start:
+            conv_finish = datetime.fromisoformat(finish)
+            start = conv_finish - timedelta(days=30)
+            start = start.isoformat()
+
+        if store_id == "null":
+            queryset = ServiceList.objects.filter(
+                delivered_at__exact=None, created_at__range=[start, finish]
+            )
             return queryset
 
-        get_object_or_404(Store, pk=route_parameter)
+        get_object_or_404(Store, pk=store_id)
 
         queryset = ServiceList.objects.filter(
-            delivered_at__exact=route_parameter
+            delivered_at__exact=store_id, created_at__range=[start, finish]
         )
 
         return queryset

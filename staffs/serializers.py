@@ -23,9 +23,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "password": {"write_only": True},
             "date_joined": {"read_only": True},
+            "is_superuser": {"read_only": True},
+            "is_active": {"read_only": True},
         }
 
     def create(self, validated_data):
+
         return Staff.objects.create_user(**validated_data)
 
 
@@ -33,6 +36,3 @@ class ListStaffsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
         fields = ["id", "username", "first_name", "last_name", "is_active"]
-
-    def create(self, validated_data):
-        return Staff.objects.create_user(**validated_data)

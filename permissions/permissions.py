@@ -88,9 +88,6 @@ class StaffCreationPermission(permissions.BasePermission):
         if not request.user.is_authenticated:
             return False
 
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
         if not (request.user.is_superuser or request.user.is_manager):
             return False
 

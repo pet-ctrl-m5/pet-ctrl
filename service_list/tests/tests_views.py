@@ -7,17 +7,8 @@ from services.models import Service
 from staffs.models import Staff
 from store.models import Store
 
-from .mocks import (
-    doctor,
-    manager,
-    pet_data,
-    pet_data_2,
-    service_1,
-    service_2,
-    staff,
-    store,
-    super_user,
-)
+from .mocks import (doctor, manager, pet_data, pet_data_2, service_1,
+                    service_2, staff, store, super_user)
 
 
 class ServiceListVIewsTests(APITestCase):
@@ -508,7 +499,7 @@ class ServiceListVIewsTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["count"], len(self.list_1))
+        self.assertEqual(len(response.data), len(self.list_1))
 
     def test_access_financial_reports_null_store_manager(self):
         self.client.credentials(
@@ -518,7 +509,7 @@ class ServiceListVIewsTests(APITestCase):
         response = self.client.get(f"/api/stores/financial/?store=null")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["count"], len(self.list_2))
+        self.assertEqual(len(response.data), len(self.list_2))
 
     def test_access_financial_reports_staff(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token_staff}")
